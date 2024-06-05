@@ -17,7 +17,7 @@ make install
 ```bash
 cargo install ibc-relayer-cli --bin hermes --locked
 
-hermes version # v1.6.0
+hermes version
 ```
 
 ### Setup chains
@@ -63,6 +63,10 @@ make hermes-start
 
 ### Ledger signing 
 
+1. Setup your ledger using LedgerLive and download the cosmos app. 
+2. Create a new cosmos account address. Note that ibc simapp uses the `cosmos` bech32 prefix.
+3. Your device is now ready for testing using ibc simapp.
+
 Where `cosmos1kzjk9frgfgpguvdazesgpllwsggk8472xryjvr` is your ledger account address.
 
 Add your ledger key:
@@ -74,7 +78,7 @@ simd keys add ledgerKey --ledger --home ./data/test-1
 Fund your ledger account from one of the demo accounts - `wallet1`:
 
 ```bash
-simd tx bank send wallet1 cosmos1kzjk9frgfgpguvdazesgpllwsggk8472xryjvr 1000000stake --from wallet1 --node tcp://localhost:16657 --home ./data/test-1 --keyring-backend test
+simd tx bank send wallet1 cosmos1kzjk9frgfgpguvdazesgpllwsggk8472xryjvr 1000000stake --from wallet1 --chain-id test-1 --node tcp://localhost:16657 --home ./data/test-1 --keyring-backend test
 ```
 
 Query balance of ledger account:
@@ -86,11 +90,11 @@ simd q bank balances cosmos1kzjk9frgfgpguvdazesgpllwsggk8472xryjvr --home ./data
 Regular bank send using ledger signing:
 
 ```bash
-simd tx bank send cosmos1kzjk9frgfgpguvdazesgpllwsggk8472xryjvr cosmos17dtl0mjt3t77kpuhg2edqzjpszulwhgzuj9ljs 10stake --from ledgerKey --ledger --node tcp://localhost:16657 --home ./data/test-1
+simd tx bank send cosmos1kzjk9frgfgpguvdazesgpllwsggk8472xryjvr cosmos17dtl0mjt3t77kpuhg2edqzjpszulwhgzuj9ljs 10stake --from ledgerKey --chain-id test-1 --ledger --node tcp://localhost:16657 --home ./data/test-1
 ```
 
 IBC transfer using ledger signing:
 
 ```bash
-simd tx ibc-transfer transfer transfer channel-0 cosmos17dtl0mjt3t77kpuhg2edqzjpszulwhgzuj9ljs 1000stake --from ledgerKey --ledger --node tcp://localhost:16657 --home ./data/test-1
+simd tx ibc-transfer transfer transfer channel-0 cosmos17dtl0mjt3t77kpuhg2edqzjpszulwhgzuj9ljs 1000stake --from ledgerKey --chain-id test-1 --ledger --node tcp://localhost:16657 --home ./data/test-1
 ```
